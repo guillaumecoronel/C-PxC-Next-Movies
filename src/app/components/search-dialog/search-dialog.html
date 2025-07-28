@@ -1,0 +1,63 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur">
+  <div class="bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-hidden flex flex-col fade-in">
+    <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+      <h2 class="text-xl font-bold">Search Movies</h2>
+      <button (click)="closeSearchDialog()" class="text-gray-400 hover:text-white">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="p-4">
+      <div class="relative formDialog">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          placeholder="Search for a movie..."
+          class="w-full titleDialog bg-gray-700 rounded-lg px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          (keyup)="$event.key === 'Enter' && searchMovies()">
+        <input
+          type="text"
+          [(ngModel)]="yearQuery"
+          placeholder="Year..."
+          class="w-full bg-gray-700 rounded-lg px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          (keyup)="$event.key === 'Enter' && searchMovies()">
+        <span class="material-icons absolute left-3 top-3 text-gray-400">search</span>
+      </div>
+    </div>
+
+      @if(this.searchResult) {
+        <div class="mt-4 space-y-2 max-h-[60vh] overflow-y-auto search-result">
+          <div
+            class="flex items-center p-3 bg-gray-700 rounded-lg hover:bg-gray-600 cursor-pointer transition-colors duration-200"
+            (click)="addMovie()">
+            <img
+              src="{{this.searchResult.poster !== 'N/A' ? searchResult.poster : 'https://via.placeholder.com/50x75?text=No+Poster'}}"
+              alt="{{searchResult.title}}"
+              class="w-12 h-16 object-cover rounded">
+            <div class="ml-3">
+              <h4 class="font-medium">{{searchResult.title}}</h4>
+              <p class="text-sm text-gray-400">{{searchResult.year}}</p>
+            </div>
+          </div>
+        </div>
+      }
+
+    <!--
+      <div ng-if="vm.searchResults.length === 0 && vm.searchQuery" class="mt-4 text-center py-8 text-gray-400">
+        <span class="material-icons text-4xl mb-2">search_off</span>
+        <p>No results found for "{{vm.searchQuery}}"</p>
+      </div>
+    </div>
+  -->
+    <div class="p-4 flex justify-end">
+      <button
+        (click)="searchMovies()"
+        class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center cursor-pointer"
+        >
+        <span class="material-icons mr-1">search</span>
+        Search
+      </button>
+    </div>
+  </div>
+  -->
+</div>

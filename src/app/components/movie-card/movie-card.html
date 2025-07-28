@@ -1,0 +1,20 @@
+<div class="movie-card" (click)="selectMovie()">
+  <div class="relative">
+    <img
+      [src]="movie.poster !== 'N/A' ? movie.poster : 'https://via.placeholder.com/300x450?text=No+Poster'"
+      [alt]="movie.title"
+      class="h-full w-full object-cover movie-card-poster">
+  </div>
+  <div class="p-4 movie-card-t">
+    <h1 class="font-bold truncate movie-card-title">{{movie.released}}</h1>
+    <!--
+    <div class="flex justify-between items-center mt-2 text-sm text-gray-400">
+      <span>{{movie.Year}}</span>
+      <span class="flex items-center">
+        <span class="material-icons text-yellow-400 text-sm">star</span>
+        {{movie.imdbRating || 'N/A'}}
+      </span>
+    </div>
+    -->
+  </div>
+</div>
