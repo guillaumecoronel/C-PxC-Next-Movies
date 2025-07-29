@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import {createClient, PostgrestError, SupabaseClient} from '@supabase/supabase-js';
 import {OmdbMovie, SupaBaseMovie} from '../models/movie.model';
 
 @Injectable({
@@ -18,9 +18,13 @@ export class SupabaseService {
 
   // CREATE
   async addMovie(movie: SupaBaseMovie) {
-    const { data, error } = await this.supabase
+    const { data, error } : {
+      data: SupaBaseMovie[] | null;
+      error: PostgrestError | null;
+    } = await this.supabase
       .from('movies')
-      .insert([movie]);
+      .insert([movie])
+      .select();
     return { data, error };
   }
 

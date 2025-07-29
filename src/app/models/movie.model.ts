@@ -5,11 +5,11 @@ export interface OmdbRating {
 }
 
 export interface SupaBaseMovie {
-  id?: string;
+  id?: number;
   created_at?: string;
   title: string;
   year: string;
-  released: string;
+  released: Date;
   poster: string;
   imdbID: string;
 }

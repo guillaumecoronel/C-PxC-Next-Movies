@@ -1,17 +1,18 @@
 <div class="bg-gray-800 shadow-lg sticky top-0 z-50">
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center space-x-2">
-      <!--<span class="material-icons text-yellow-400">movie</span>-->
-      <img alt="Logo_Axess" src="assets/img/C&Pc-Icone.png" height="64px" width="64px" class="logo"/>
+      <img alt="Logo" src="assets/img/C&Pc-Icone.png" height="64px" width="64px" class="logo"/>
       <h1 class="text-xl font-bold">Cinéma & Pixel's Club</h1>
     </div>
     <div class="flex items-center space-x-4 actions-button">
       <button (click)="openSearchDialog()" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
         <span class="material-icons">add</span>
       </button>
+      <!---
       <button (click)="openFilterDialog()" class="bg-gray-700 hover:bg-gray-600 rounded-full p-2 transition-colors duration-200 cursor-pointer">
         <span class="material-icons">filter_list</span>
       </button>
+      -->
     </div>
   </div>
 </div>
@@ -22,46 +23,33 @@
   <div class="flex justify-end gap-4 mb-6">
     <select
       class="bg-gray-800 text-white border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring focus:border-yellow-500"
+      [(ngModel)]="selectedYear"
+      (change)="onYearsChange($event)"
     >
-      <option value="">All Genres</option>
-      <option *ngFor="let genre of availableGenres" [value]="genre">{{ genre }}</option>
+      @for(year of availableYears;track year) {
+        <option [value]="year">{{ year }}</option>
+      }
     </select>
 
     <select
       class="bg-gray-800 text-white border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring focus:border-yellow-500"
+      [(ngModel)]="selectedMonth"
+      (change)="onMonthChange($event)"
     >
-      <option value="">All Years</option>
-      <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+      <option [value]="-1">Mois</option>
+      @for(month of availableMonth;track month) {
+        <option [value]=month.id>{{ month.label }}</option>
+      }
     </select>
   </div>
 
-  <!-- Categories -->
-  <div class="mb-8">
-    <!--
-    <h2 class="text-2xl font-bold mb-4 flex items-center">
-      <span class="material-icons mr-2 text-yellow-400">category</span>
-      Browse Movies
-    </h2>
-    -->
-    <div class="flex overflow-x-auto pb-4 space-x-2">
-      <!--
-      <button
-        *ngFor="let category of categories"
-        (click)="setActiveCategory(category)"
-        class="px-4 py-2 rounded-full whitespace-nowrap transition-colors duration-200"
-        [ngClass]="{'bg-yellow-500 text-gray-900': activeCategory === category, 'bg-gray-700 hover:bg-gray-600': activeCategory !== category}">
-        {{category}}
-      </button>
-      -->
-    </div>
-  </div>
-
   <!-- Movie Grid -->
-  @if (movies.length > 0) {
+  @if (filteredMovies.length > 0) {
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-      @for (m of movies;track m.imdbID) {
+      @for (m of filteredMovies;track m.imdbID) {
         <app-movie-card
           [movie]="m"
+          (deletedMovie)="onDeleteMovie($event)"
           >
         </app-movie-card>
       }
@@ -69,7 +57,7 @@
   }
 
   <!-- Empty State -->
-  @if (movies.length === 0) {
+  @if (filteredMovies.length === 0) {
     <div class="text-center py-16">
       <span class="material-icons text-6xl text-gray-600 mb-4">movie_filter</span>
       <h3 class="text-xl font-bold mb-2">No Movies Found</h3>
@@ -86,42 +74,17 @@
 @if(showSearchDialog) {
   <app-search-dialog
     (closeDialog)="closeSearchDialog()"
-  (searchDialogComplete)="searchDialogComplete($event)">
+    (searchDialogComplete)="searchDialogComplete($event)">
   </app-search-dialog>
 }
 
 
 
 <!--
-
 @if(showMovieDetails) {
 <app-details-dialog
   [movie]="selectedMovie"
   (closeDetailsDialog)="closeMovieDetails()">
 </app-details-dialog>
 }
-
-@if(showSearchDialog) {
-  <app-search-dialog
-    [searchQuery]="searchQuery"
-    [searchResults]="searchResults"
-    (closeDialog)="closeSearchDialog()"
-    (search)="searchMovies($event)"
-    (addMovie)="addMovie($event)">
-  </app-search-dialog>
-}
-
-
-
-<app-filter-dialog
-  *ngIf="showFilterDialog"
-  [yearFilter]="yearFilter"
-  [ratingFilter]="ratingFilter"
-  [genreFilter]="genreFilter"
-  [availableGenres]="availableGenres"
-  (close)="closeFilterDialog()"
-  (apply)="applyFilters($event)"
-  (reset)="resetFilters()"
-  (toggleGenre)="toggleGenreFilter($event)">
-</app-filter-dialog>
 -->

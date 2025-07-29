@@ -21,24 +21,18 @@ export class MovieService {
     );
   }
 
-
-  getCategories(): string[] {
-    return ['All', 'Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi', 'Thriller'];
-  }
-
-  getAvailableGenres(): string[] {
-    return ['Action', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime',
-      'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror',
-      'Music', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western'];
-  }
-
   private transformOmdbToSupabase(external: OmdbMovie): SupaBaseMovie {
     return {
       title: external.Title,
       year: external.Year,
-      released: external.Released,
+      released: new Date(external.Released),
       poster: external.Poster,
       imdbID: external.imdbID
     };
+  }
+
+  private getMonthNumber(dateStr: string): number {
+    const date = new Date(dateStr);
+    return date.getMonth() ;
   }
 }
