@@ -10,3 +10,9 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.actions-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

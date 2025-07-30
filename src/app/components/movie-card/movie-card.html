@@ -13,6 +13,8 @@
     </button>
   </div>
   <div class="p-4 movie-card-t">
-    <h1 class="font-bold truncate movie-card-title">{{movie.released | date:"dd/MM/yyyy"}}</h1>
+    <h1 class="font-bold truncate text-3xl movie-card-title">{{movie.released | date:"dd "}}</h1>
+    <h1 class="font-bold truncate text-3xl movie-card-title text-yellow-500">|</h1>
+    <h1 class="font-bold truncate self-end movie-card-title">{{movie.released | date:"MMM"}}</h1>
   </div>
 </div>

@@ -13,10 +13,18 @@
 
 .movie-card-title {
   text-align: center;
+  &__separator {
+    color: yellow;
+  }
 }
 
 .movie-card-t {
   max-width: 25vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .movie-card-poster {
