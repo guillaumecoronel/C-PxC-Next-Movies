@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-mdc-form-field-type-mat-select {
+  .mdc-line-ripple {
+    color: var(--color-yellow-500)
+  }
+}
+
+.mat-mdc-option {
+  .mdc-list-item__primary-text {
+    display : flex;
+    justify-content: space-between;
+    width:75%;
+  }
+}

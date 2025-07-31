@@ -21,26 +21,50 @@
 
   <!-- Filter Selectors -->
   <div class="flex justify-end gap-4 mb-6">
-    <select
-      class="bg-gray-800 text-white border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring focus:border-yellow-500"
-      [(ngModel)]="selectedYear"
-      (change)="onYearsChange($event)"
-    >
-      @for(year of availableYears;track year) {
-        <option [value]="year">{{ year }}</option>
-      }
-    </select>
+    <mat-form-field>
+      <mat-label>Année de sortie</mat-label>
+      <mat-select [(ngModel)]="selectedYear" (selectionChange)="onYearsChange($event)">
+        <mat-select-trigger>
+          {{ selectedYear }}
+        </mat-select-trigger>
+        @for (year of availableYears; track year) {
+          <mat-option [value]="year">
+            {{year}}
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500 text-black text-xs font-semibold">
+              {{getMoviesPerYear(year)}}
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
-    <select
-      class="bg-gray-800 text-white border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring focus:border-yellow-500"
-      [(ngModel)]="selectedMonth"
-      (change)="onMonthChange($event)"
-    >
-      <option [value]="-1">Mois</option>
-      @for(month of availableMonth;track month) {
-        <option [value]=month.id>{{ month.label }}</option>
-      }
-    </select>
+    <mat-form-field>
+      <mat-label>Mois de sortie</mat-label>
+      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onMonthChange($event)">
+        <mat-select-trigger>
+          {{ getMonthForId(selectedMonth)!.label }}
+        </mat-select-trigger>
+        @for (month of availableMonth; track month) {
+          <mat-option [value]="month.id">
+            {{month.label}}
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500 text-black text-xs font-semibold">
+              {{getMoviesPerYearAndMonth(selectedYear,month.id)}}
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+<!--    <select-->
+<!--      class="bg-gray-800 text-white border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring focus:border-yellow-500"-->
+<!--      [(ngModel)]="selectedMonth"-->
+<!--      (change)="onMonthChange($event)"-->
+<!--    >-->
+<!--      <option [value]="-1">Mois</option>-->
+<!--      @for(month of availableMonth;track month) {-->
+<!--        <option [value]=month.id>{{ month.label }}</option>-->
+<!--      }-->
+<!--    </select>-->
   </div>
 
   <!-- Movie Grid -->

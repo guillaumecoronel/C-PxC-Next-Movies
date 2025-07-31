@@ -8,6 +8,8 @@ import {SearchDialog} from './components/search-dialog/search-dialog';
 import {NgOptimizedImage} from '@angular/common';
 import {SupabaseService} from './services/supabase.service';
 import {FormsModule} from '@angular/forms';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatSelectModule} from '@angular/material/select';
 
 export const MONTHS_FR = [
   { id: 0, label: 'Janvier' },
@@ -29,13 +31,11 @@ export const MONTHS_FR = [
   selector: 'app-root',
   templateUrl: './app.html',
   imports: [
-    MatSidenavContainer,
-    MatSidenav,
-    MatSidenavContent,
     MovieCard,
     SearchDialog,
-    NgOptimizedImage,
-    FormsModule
+    FormsModule,
+    MatBadgeModule,
+    MatSelectModule
   ],
   styleUrl: './app.scss'
 })
@@ -125,6 +125,21 @@ export class App implements OnInit {
     if(!this.availableYears.find(y => y == this.selectedYear) && this.availableYears.length > 0){
       this.selectedYear = this.availableYears[0]
     }
+  }
+
+  public getMoviesPerYear(y: number) {
+    return this.movies.filter(m => m.year === y.toString()).length
+  }
+
+  public getMoviesPerYearAndMonth(y:number,m: number) {
+    return this.movies.filter(mo => {
+      const temp:Date = new Date(mo.released)
+      return temp.getMonth()===m && temp.getFullYear()===y
+    }).length
+  }
+
+  public getMonthForId(id:number){
+    return this.availableMonth.find(m => m.id === id)
   }
 
 }

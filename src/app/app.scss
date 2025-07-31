@@ -23,3 +23,9 @@
 .logo {
   border-radius: 50%;
 }
+
+.select {
+  &__years {
+    width: 6rem !important;
+  }
+}
