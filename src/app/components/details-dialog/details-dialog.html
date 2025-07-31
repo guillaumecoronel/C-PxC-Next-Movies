@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <div class="p-4 flex justify-between">
+    <div class="p-4 flex justify-between gap-x-[1rem]">
       <div class="relative formDialog">
         <img
           (click)="togglePanel()"
@@ -16,20 +16,30 @@
           class="object-cover rounded-[25px] max-h-[35vh] max-w-[25vh] min-h-[35vh] min-w-[25vh] cursor-pointer">
 
         <!-- Bandeau coulissant -->
-        @if(showPanel) {
-          <div #panel
-               class="absolute top-0 right-0 h-full w-[120px] bg-gray-900 rounded-r-lg shadow-lg overflow-y-auto transition-all duration-300 z-10">
-            <div class="p-2 space-y-2">
-              @for(img of imgs;track img) {
-              <img
-                (click)="updatePoster(img)"
-                [src]="img"
-                class="w-full h-20 object-cover rounded cursor-pointer hover:scale-105 transition-transform">
-              }
-            </div>
-          </div>
-        }
+<!--        @if(showPanel) {-->
+<!--          <div #panel-->
+<!--               class="absolute top-0 right-0 h-full w-[120px] bg-gray-900 rounded-r-lg shadow-lg overflow-y-auto transition-all duration-300 z-10">-->
+<!--            <div class="p-2 space-y-2">-->
+<!--              @for(img of imgs;track img) {-->
+<!--              <img-->
+<!--                (click)="updatePoster(img)"-->
+<!--                [src]="img"-->
+<!--                class="w-full h-20 object-cover rounded cursor-pointer hover:scale-105 transition-transform">-->
+<!--              }-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        }-->
     </div>
+
+    <div class="flex flex-wrap gap-x-[1rem] gap-y-[1rem] overflow-y-auto max-h-[35vh]">
+      @for(img of imgs;track img) {
+        <img
+          (click)="updatePoster(img)"
+          alt="{{movie.title}}"
+          [src]="img"
+          class="max-h-[25vh] max-w-[20vh] min-h-[25vh] min-w-[20vh] object-cover rounded-[25px] cursor-pointer hover:scale-105 transition-transform">
+      }
+    </div >
 
       <!--<div class="flex">
         <button
