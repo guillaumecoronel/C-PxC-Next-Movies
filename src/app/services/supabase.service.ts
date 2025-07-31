@@ -38,7 +38,7 @@ export class SupabaseService {
   }
 
   // UPDATE
-  async updateMovie(id: number, movie: Partial<OmdbMovie>) {
+  async updateMovie(id: number, movie: Partial<SupaBaseMovie>) {
     const { data, error } = await this.supabase
       .from('movies')
       .update(movie)

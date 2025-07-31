@@ -10,6 +10,7 @@ import {SupabaseService} from './services/supabase.service';
 import {FormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSelectModule} from '@angular/material/select';
+import {DetailsDialog} from './components/details-dialog/details-dialog';
 
 export const MONTHS_FR = [
   { id: 0, label: 'Janvier' },
@@ -35,7 +36,8 @@ export const MONTHS_FR = [
     SearchDialog,
     FormsModule,
     MatBadgeModule,
-    MatSelectModule
+    MatSelectModule,
+    DetailsDialog
   ],
   styleUrl: './app.scss'
 })
@@ -47,6 +49,7 @@ export class App implements OnInit {
   showSearchDialog = false;
   showMovieDetails = false;
   showFilterDialog = false;
+  selectedMovie: SupaBaseMovie| null = null;
 
   // Filter state
   selectedYear: number = new Date().getFullYear();
@@ -75,7 +78,7 @@ export class App implements OnInit {
 
   public filterMovies(year?:number, month?:number) {
     this.filteredMovies = this.movies.filter(movie => movie.year === year?.toString())
-    if(month && month > -1) {
+    if(month != undefined && month > -1) {
       this.filteredMovies = this.filteredMovies.filter(movie => {
         const temp:Date = new Date(movie.released)
         if(temp.getMonth() === Number(month)) {
@@ -93,6 +96,10 @@ export class App implements OnInit {
       this.extractAvailableYears();
       this.filterMovies(this.selectedYear,this.selectedMonth);
     })
+  }
+
+  public onCloseDetailsDialog() {
+    this.showMovieDetails = false;
   }
 
   public openSearchDialog(){
@@ -140,6 +147,11 @@ export class App implements OnInit {
 
   public getMonthForId(id:number){
     return this.availableMonth.find(m => m.id === id)
+  }
+
+  public onSelectMovie(m: SupaBaseMovie) {
+    this.selectedMovie = m;
+    this.showMovieDetails = true;
   }
 
 }

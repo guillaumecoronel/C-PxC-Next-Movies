@@ -42,8 +42,11 @@
       <mat-label>Mois de sortie</mat-label>
       <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onMonthChange($event)">
         <mat-select-trigger>
-          {{ getMonthForId(selectedMonth)!.label }}
+          {{ selectedMonth > -1 ? getMonthForId(selectedMonth)!.label : '##Tous##' }}
         </mat-select-trigger>
+        <mat-option [value]="-1">
+          ##Tous##
+        </mat-option>
         @for (month of availableMonth; track month) {
           <mat-option [value]="month.id">
             {{month.label}}
@@ -75,6 +78,7 @@
         <app-movie-card
           [movie]="m"
           (deletedMovie)="onDeleteMovie($event)"
+          (click)="onSelectMovie(m)"
           >
         </app-movie-card>
       }
@@ -103,13 +107,9 @@
   </app-search-dialog>
 }
 
-
-
-<!--
 @if(showMovieDetails) {
-<app-details-dialog
-  [movie]="selectedMovie"
-  (closeDetailsDialog)="closeMovieDetails()">
-</app-details-dialog>
+  <app-details-dialog
+    [movie]="selectedMovie!"
+    (closeDialog)="onCloseDetailsDialog()">
+  </app-details-dialog>
 }
--->
