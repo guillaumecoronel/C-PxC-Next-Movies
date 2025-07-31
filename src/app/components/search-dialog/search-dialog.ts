@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MovieService} from '../../services/movie.service';
 import {OmdbMovie, SupaBaseMovie} from '../../models/movie.model';
@@ -17,6 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 export class SearchDialog {
   @Output() closeDialog = new EventEmitter<boolean>();
   @Output() searchDialogComplete = new EventEmitter<SupaBaseMovie |null>();
+  @ViewChild('dialogContent') dialogContentRef!: ElementRef;
 
   public searchQuery: string = "";
   public yearQuery: string = "";
@@ -25,6 +26,12 @@ export class SearchDialog {
 
   constructor(private movieService:MovieService) {
 
+  }
+
+  onBackdropClick(event: MouseEvent) {
+    if (!this.dialogContentRef.nativeElement.contains(event.target)) {
+      this.closeSearchDialog();
+    }
   }
 
   public closeSearchDialog(){

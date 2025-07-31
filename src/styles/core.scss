@@ -17,3 +17,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width:75%;
   }
 }
+
+.cdk-overlay-pane {
+  background-color: var(--color-gray-800);
+}

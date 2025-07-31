@@ -18,7 +18,8 @@ export class TmdbService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.apiToken}`,
     });
-    return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images?language=en,fr`,{headers}).pipe(
+    // return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images?language=en,fr`,{headers}).pipe(
+    return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images`,{headers}).pipe(
       map(ti => {
         return ti.posters.map(p => {
           return this.imageUrl+p.file_path

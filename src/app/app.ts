@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, signal, ViewChild} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 import {OmdbMovie, SupaBaseMovie} from './models/movie.model';

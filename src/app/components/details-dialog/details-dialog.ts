@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
 import {SupaBaseMovie} from '../../models/movie.model';
 import {TmdbService} from '../../services/tmdb.service';
@@ -15,6 +15,18 @@ import {SupabaseService} from '../../services/supabase.service';
 export class DetailsDialog implements OnInit {
   @Input() movie!: SupaBaseMovie;
   @Output() closeDialog = new EventEmitter<boolean>();
+  @ViewChild('panel') panelRef!: ElementRef;
+  @ViewChild('dialogContent') dialogContentRef!: ElementRef;
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    if (this.showPanel && this.panelRef) {
+      const clickedInside = this.panelRef.nativeElement.contains(event.target);
+      if (!clickedInside) {
+        this.showPanel = false;
+      }
+    }
+  }
 
   public showPanel: boolean = false;
 
@@ -26,6 +38,12 @@ export class DetailsDialog implements OnInit {
     this.tmdbService.getTmdbImages(this.movie.imdbID).subscribe(response => {
       this.imgs = response;
     })
+  }
+
+  onBackdropClick(event: MouseEvent) {
+    if (!this.dialogContentRef.nativeElement.contains(event.target)) {
+      this.closeDetailsDialog();
+    }
   }
 
   public closeDetailsDialog(){
