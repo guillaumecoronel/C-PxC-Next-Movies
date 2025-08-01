@@ -1,5 +1,5 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur" (click)="onBackdropClick($event)">
-  <div #dialogContent class="bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-hidden flex flex-col fade-in">
+<div class="w-full h-full fixed inset-0 z-50 flex items-center justify-center md:p-4 backdrop-blur" (click)="onBackdropClick($event)">
+  <div #dialogContent class="bg-gray-800 rounded-lg shadow-xl h-full md:h-auto md:max-w-md w-full md:max-h-[90vh] overflow-hidden flex flex-col fade-in">
     <div class="p-4 border-b border-gray-700 flex justify-between items-center">
       <h2 class="text-xl font-bold">Search Movies</h2>
       <button (click)="closeSearchDialog()" class="text-gray-400 hover:text-white">
@@ -49,7 +49,7 @@
       </div>
     </div>
   -->
-    <div class="p-4 actions-form">
+    <div class="p-4 actions-form w-full absolute bottom-0 md:w-auto md:static md:bottom-auto">
       <!-- Champ date à gauche -->
 <!--      @if(this.searchResult) {-->
         <input [(ngModel)]="dateSortie" type="date" placeholder="Date sortie française" class="bg-gray-700 text-white px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-1/2">
@@ -71,5 +71,4 @@
       </button>
     </div>
   </div>
-  -->
 </div>
