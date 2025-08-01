@@ -73,7 +73,7 @@
   <!-- Movie Grid -->
   @if (filteredMovies.length > 0) {
 <!--    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">-->
-    <div class="flex flex-row flex-wrap gap-x-[1rem]">
+    <div class="flex flex-row flex-wrap gap-x-[1rem] justify-center md:justify-normal">
       @for (m of filteredMovies;track m.imdbID) {
         <app-movie-card
           [movie]="m"

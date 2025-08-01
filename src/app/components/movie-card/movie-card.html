@@ -1,11 +1,11 @@
-<div class="movie-card group" (click)="selectMovie()">
-  <div class="relative movie-card__container" [class.shaking]="hoveringDelete">
+<div class="movie-card group flex items-center flex-col" (click)="selectMovie()">
+  <div class="relative movie-card__container min-w-[35vh] sm:min-w-[25vh]" [class.shaking]="hoveringDelete">
     <img
-      [src]="movie.poster !== 'N/A' ? movie.poster : 'https://via.placeholder.com/300x450?text=No+Poster'"
+      [src]="movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/300x450?text=No+Poster'"
       [alt]="movie.title"
       class="h-full w-full object-cover movie-card-poster cursor-pointer">
     <button
-      class="absolute cursor-pointer top-2 right-2 z-10 hidden group-hover:flex items-center justify-center bg-red-600 text-white w-6 h-6 rounded-full text-xs hover:bg-red-700"
+      class="absolute cursor-pointer top-2 right-2 z-10 md:hidden group-hover:flex items-center justify-center bg-red-600 text-white w-10 md:w-6 h-10 md:h-6 text-xl md:text-xs rounded-full hover:bg-red-700"
       (mouseenter)="hoveringDelete = true"
       (mouseleave)="hoveringDelete = false"
       (click)="deleteMovie()">
