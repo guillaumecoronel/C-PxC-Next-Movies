@@ -64,6 +64,7 @@ export class App implements OnInit {
     this.supabaseService.getMovies().then(results => {
       this.movies = results.data as SupaBaseMovie[];
       this.extractAvailableYears();
+      this.restoreFilter()
       this.filterMovies(this.selectedYear,this.selectedMonth)
     })
   }
@@ -88,6 +89,24 @@ export class App implements OnInit {
       })
     }
     this.filteredMovies.sort((a, b) => new Date(a.released).getTime() - new Date(b.released).getTime());
+    this.saveFilter();
+  }
+
+  public saveFilter() {
+    const filters = {
+      selectedYear: this.selectedYear,
+      selectedMonth: this.selectedMonth,
+    };
+    localStorage.setItem('movieFilters', JSON.stringify(filters));
+  }
+
+  public restoreFilter() {
+    const savedFilters = localStorage.getItem('movieFilters');
+    if (savedFilters) {
+      const filters = JSON.parse(savedFilters);
+      this.selectedYear = filters.selectedYear || null;
+      this.selectedMonth = filters.selectedMonth || -1;
+    }
   }
 
   public onDeleteMovie(movie: SupaBaseMovie) {
