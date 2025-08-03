@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@use "tailwindcss";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -20,4 +20,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .cdk-overlay-pane {
   background-color: var(--color-gray-800);
+}
+
+.is-mobile {
+  padding-top: 2rem;
+  //background-color: #111; /* ou tout style spécifique mobile */
 }

@@ -4,6 +4,7 @@ import {MovieService} from '../../services/movie.service';
 import {OmdbMovie, SupaBaseMovie} from '../../models/movie.model';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-search-dialog',
@@ -50,4 +51,6 @@ export class SearchDialog {
     }
     this.searchDialogComplete.emit(this.searchResult)
   }
+
+  protected readonly environment = environment;
 }

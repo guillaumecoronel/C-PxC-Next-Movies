@@ -1,4 +1,4 @@
-<div class="bg-gray-800 shadow-lg sticky top-0 z-50">
+<div #swipeArea class="bg-gray-800 shadow-lg sticky top-0 z-50" [class.is-mobile]="environment.mobile">
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center space-x-2">
       <img alt="Logo" src="assets/img/C&Pc-Icone.png" height="64px" width="64px" class="logo"/>
@@ -8,11 +8,6 @@
       <button (click)="openSearchDialog()" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
         <span class="material-icons">add</span>
       </button>
-      <!---
-      <button (click)="openFilterDialog()" class="bg-gray-700 hover:bg-gray-600 rounded-full p-2 transition-colors duration-200 cursor-pointer">
-        <span class="material-icons">filter_list</span>
-      </button>
-      -->
     </div>
   </div>
 </div>
@@ -58,21 +53,10 @@
       </mat-select>
     </mat-form-field>
 
-<!--    <select-->
-<!--      class="bg-gray-800 text-white border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring focus:border-yellow-500"-->
-<!--      [(ngModel)]="selectedMonth"-->
-<!--      (change)="onMonthChange($event)"-->
-<!--    >-->
-<!--      <option [value]="-1">Mois</option>-->
-<!--      @for(month of availableMonth;track month) {-->
-<!--        <option [value]=month.id>{{ month.label }}</option>-->
-<!--      }-->
-<!--    </select>-->
   </div>
 
   <!-- Movie Grid -->
   @if (filteredMovies.length > 0) {
-<!--    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">-->
     <div class="flex flex-row flex-wrap gap-x-[1rem] justify-center md:justify-normal">
       @for (m of filteredMovies;track m.imdbID) {
         <app-movie-card
@@ -91,11 +75,6 @@
       <span class="material-icons text-6xl text-gray-600 mb-4">movie_filter</span>
       <h3 class="text-xl font-bold mb-2">No Movies Found</h3>
       <p class="text-gray-400 mb-4">Search for movies to add them to your collection</p>
-      <!--
-      <button (click)="openSearchDialog()" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-6 py-2 rounded-full font-medium transition-colors duration-200">
-        Search Movies
-      </button>
-      -->
     </div>
   }
 </main>

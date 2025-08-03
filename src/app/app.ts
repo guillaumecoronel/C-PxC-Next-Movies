@@ -1,16 +1,15 @@
-import {Component, ElementRef, HostListener, OnInit, signal, ViewChild} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
-import {OmdbMovie, SupaBaseMovie} from './models/movie.model';
-import {MovieService} from './services/movie.service';
+import {Component, NgZone, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
+import { SupaBaseMovie} from './models/movie.model';
 import {MovieCard} from './components/movie-card/movie-card';
 import {SearchDialog} from './components/search-dialog/search-dialog';
-import {NgOptimizedImage} from '@angular/common';
 import {SupabaseService} from './services/supabase.service';
 import {FormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSelectModule} from '@angular/material/select';
 import {DetailsDialog} from './components/details-dialog/details-dialog';
+import {environment} from '../environments/environment';
+import {Platform} from '@ionic/angular';
+import { App as CapApp } from '@capacitor/app';
 
 export const MONTHS_FR = [
   { id: 0, label: 'Janvier' },
@@ -41,14 +40,15 @@ export const MONTHS_FR = [
   ],
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
+export class App implements OnInit,OnDestroy {
   protected readonly title = signal('CPC-Next');
+
+  private backListener:any;
 
   movies: SupaBaseMovie[] = [];
   filteredMovies: SupaBaseMovie[] = [];
   showSearchDialog = false;
   showMovieDetails = false;
-  showFilterDialog = false;
   selectedMovie: SupaBaseMovie| null = null;
 
   // Filter state
@@ -57,10 +57,14 @@ export class App implements OnInit {
   availableYears: number[] = [];
   availableMonth: {id: number,label:string}[] = MONTHS_FR;
 
-  constructor(private supabaseService:SupabaseService) {
+  constructor(private supabaseService:SupabaseService,private ngZone: NgZone,private platform: Platform) {
   }
 
   ngOnInit(): void {
+    if(environment.mobile) {
+      this.androidHandleBackButton();
+    }
+
     this.supabaseService.getMovies().then(results => {
       this.movies = results.data as SupaBaseMovie[];
       this.extractAvailableYears();
@@ -69,12 +73,32 @@ export class App implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    this.backListener.unsubscribe();
+  }
+
   public onYearsChange(e : any) {
     this.filterMovies(this.selectedYear,this.selectedMonth)
   }
 
   public onMonthChange(e: any) {
     this.filterMovies(this.selectedYear,this.selectedMonth)
+  }
+
+  public androidHandleBackButton(){
+    this.platform.ready().then(() => {
+      this.backListener = CapApp.addListener('backButton', ({ canGoBack }) => {
+        this.ngZone.run(() => {
+          if(this.showMovieDetails) {
+            this.showMovieDetails = false
+          } else if(this.showSearchDialog){
+            this.showSearchDialog = false
+          } else {
+            CapApp.minimizeApp();
+          }
+        });
+      });
+    });
   }
 
   public filterMovies(year?:number, month?:number) {
@@ -173,4 +197,5 @@ export class App implements OnInit {
     this.showMovieDetails = true;
   }
 
+  protected readonly environment = environment;
 }

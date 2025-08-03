@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import localeFr from '@angular/common/locales/fr';
-
 import { routes } from './app.routes';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {registerLocaleData} from '@angular/common';

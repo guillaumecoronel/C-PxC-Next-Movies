@@ -1,4 +1,4 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center md:p-4 backdrop-blur" (click)="onBackdropClick($event)">
+<div class="fixed inset-0 z-50 flex items-center justify-center md:p-4 backdrop-blur" [class.is-mobile]="environment.mobile" (click)="onBackdropClick($event)">
   <div #dialogContent class="bg-gray-800 rounded-lg shadow-xl h-full md:h-auto md:max-w-lg w-full md:max-h-[90vh] w-full overflow-hidden flex flex-col fade-in">
     <div class="p-4 border-b border-gray-700 flex justify-between items-center">
       <h2 class="text-xl font-bold">{{movie.title}}</h2>
@@ -14,42 +14,17 @@
           src="{{this.movie.poster !== 'N/A' ? movie.poster : 'https://via.placeholder.com/50x75?text=No+Poster'}}"
           alt="{{movie.title}}"
           class="object-cover rounded-[25px] max-h-[35vh] max-w-[25vh] min-h-[50vh] md:min-h-[35vh] min-w-[35vh] md:min-w-[25vh] cursor-pointer">
+      </div>
 
-        <!-- Bandeau coulissant -->
-<!--        @if(showPanel) {-->
-<!--          <div #panel-->
-<!--               class="absolute top-0 right-0 h-full w-[120px] bg-gray-900 rounded-r-lg shadow-lg overflow-y-auto transition-all duration-300 z-10">-->
-<!--            <div class="p-2 space-y-2">-->
-<!--              @for(img of imgs;track img) {-->
-<!--              <img-->
-<!--                (click)="updatePoster(img)"-->
-<!--                [src]="img"-->
-<!--                class="w-full h-20 object-cover rounded cursor-pointer hover:scale-105 transition-transform">-->
-<!--              }-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        }-->
-    </div>
-
-    <div class="flex md:flex-wrap gap-x-[1rem] gap-y-[1rem] max-h-[35vh] w-full md:w-auto overflow-y-hidden md:overflow-y-auto overflow-x-auto md:overflow-x-hidden bottom-0 md:bottom-auto absolute md:static mb-[1rem] md:mb-0">
-      @for(img of imgs;track img) {
-        <img
-          (click)="updatePoster(img)"
-          alt="{{movie.title}}"
-          [src]="img"
-          class="md:max-h-[25vh] max-w-[20vh] min-h-[25vh] min-w-[20vh] object-cover rounded-[25px] cursor-pointer hover:scale-105 transition-transform">
-      }
-    </div >
-
-      <!--<div class="flex">
-        <button
-          (click)="updateMovie()"
-          class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-6 py-2 rounded-full font-medium transition-colors duration-200 flex self-end cursor-pointer"
-        >
-          <span class="material-icons mr-1">search</span>
-          Search
-        </button>
-      </div>-->
+      <div class="flex md:flex-wrap gap-x-[1rem] gap-y-[1rem] max-h-[35vh] w-full md:w-auto overflow-y-hidden md:overflow-y-auto overflow-x-auto md:overflow-x-hidden bottom-0 md:bottom-auto absolute md:static mb-[1rem] md:mb-0">
+        @for(img of imgs;track img) {
+          <img
+            (click)="updatePoster(img)"
+            alt="{{movie.title}}"
+            [src]="img"
+            class="md:max-h-[25vh] max-w-[20vh] min-h-[25vh] min-w-[20vh] object-cover rounded-[25px] cursor-pointer hover:scale-105 transition-transform">
+        }
+      </div >
     </div>
 
   </div>

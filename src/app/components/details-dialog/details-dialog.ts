@@ -1,13 +1,23 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
 import {SupaBaseMovie} from '../../models/movie.model';
 import {TmdbService} from '../../services/tmdb.service';
 import {SupabaseService} from '../../services/supabase.service';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-details-dialog',
     imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
   templateUrl: './details-dialog.html',
   styleUrl: './details-dialog.scss'
@@ -29,7 +39,6 @@ export class DetailsDialog implements OnInit {
   }
 
   public showPanel: boolean = false;
-
   public imgs: string[] = []
 
   constructor(private tmdbService:TmdbService,private supabaseService: SupabaseService) {}
@@ -61,4 +70,5 @@ export class DetailsDialog implements OnInit {
   }
 
 
+    protected readonly environment = environment;
 }
