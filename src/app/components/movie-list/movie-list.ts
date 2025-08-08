@@ -10,6 +10,7 @@ import {DetailsDialog} from '../details-dialog/details-dialog';
 import {SupaBaseMovie} from '../../models/movie.model';
 import {SupabaseService} from '../../services/supabase.service';
 import {environment} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 export const MONTHS_FR = [
   { id: 0, label: 'Janvier' },
@@ -55,7 +56,7 @@ export class MovieList implements OnInit,OnDestroy {
   availableYears: number[] = [];
   availableMonth: {id: number,label:string}[] = MONTHS_FR;
 
-  constructor(private supabaseService:SupabaseService,private ngZone: NgZone,private platform: Platform) {
+  constructor(private router: Router,private supabaseService:SupabaseService,private ngZone: NgZone,private platform: Platform) {
   }
 
   ngOnInit(): void {
@@ -72,7 +73,9 @@ export class MovieList implements OnInit,OnDestroy {
   }
 
   ngOnDestroy() {
-    this.backListener.unsubscribe();
+    if(this.backListener) {
+      this.backListener.remove();
+    }
   }
 
   public onYearsChange(e : any) {
@@ -82,6 +85,11 @@ export class MovieList implements OnInit,OnDestroy {
   public onMonthChange(e: any) {
     this.filterMovies(this.selectedYear,this.selectedMonth)
   }
+
+  public onDblClick() {
+    this.router.navigate(['login']);
+  }
+
 
   public androidHandleBackButton(){
     this.platform.ready().then(() => {

@@ -1,0 +1,65 @@
+<div class="w-full h-full flex flex-col items-center justify-center min-h-screen bg-gray-800 md:bg-gray-700 md:p-4 backdrop-blur" [class.is-mobile]="environment.mobile">
+  <div #test class="bg-gray-800 md:rounded-lg shadow-xl h-full md:h-auto md:max-w-md w-full md:max-h-[90vh] p-4 flex flex-col md:justify-center">
+
+    <button class="text-gray-400 hover:text-white self-end" (click)="onCloseLogin()">
+      <span class="material-icons">close</span>
+    </button>
+
+    <div class="mt-[25vh] md:mt-0 p-4 md:p-0">
+      <h1 class="text-3xl font-bold text-white mb-6 text-center">Connexion</h1>
+
+      <form [formGroup]="loginForm" (ngSubmit)="signIn()" class="space-y-6" novalidate>
+        <div>
+          <label for="email" class="block mb-1 text-gray-300">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            class="w-full rounded-lg bg-gray-700 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            [class.ring-red-500]="email?.invalid && validationPending" [class.ring-2]="email?.invalid && validationPending"
+          />
+          @if(email?.errors && validationPending){
+            <p class="text-red-500 text-sm mt-1">
+              @if(email!.errors!['required']) {
+                <span >L'email est requis.</span>
+              }
+              @if(email!.errors!['email']) {
+                <span >Email invalide.</span>
+              }
+            </p>
+          }
+        </div>
+
+        <div>
+          <label for="password" class="block mb-1 text-gray-300">Mot de passe</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+            class="w-full rounded-lg bg-gray-700 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            [class.ring-red-500]="password?.invalid && validationPending" [class.ring-2]="password?.invalid && validationPending"
+          />
+          @if(password?.errors && validationPending){
+            <p class="text-red-500 text-sm mt-1">
+              <span>Le mot de passe est requis.</span>
+            </p>
+          }
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ loading ? 'Connexion...' : 'Se connecter' }}
+        </button>
+
+        @if(errorMsg){
+          <p class="mt-4 text-red-500 text-center">{{ errorMsg }}</p>
+        }
+      </form>
+    </div>
+  </div>
+</div>
