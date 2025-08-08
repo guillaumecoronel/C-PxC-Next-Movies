@@ -3,14 +3,16 @@
     <img
       [src]="movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/300x450?text=No+Poster'"
       [alt]="movie.title"
-      class="h-full w-full object-cover movie-card-poster cursor-pointer">
-    <button
-      class="absolute cursor-pointer top-2 right-2 z-10 md:hidden group-hover:flex items-center justify-center bg-red-600 text-white w-10 md:w-6 h-10 md:h-6 text-xl md:text-xs rounded-full hover:bg-red-700"
-      (mouseenter)="hoveringDelete = true"
-      (mouseleave)="hoveringDelete = false"
-      (click)="deleteMovie()">
-      ✕
-    </button>
+      class="h-full w-full object-cover movie-card-poster" [class.cursor-pointer]="user">
+    @if(user){
+      <button
+        class="absolute cursor-pointer top-2 right-2 z-10 md:hidden group-hover:flex items-center justify-center bg-red-600 text-white w-10 md:w-6 h-10 md:h-6 text-xl md:text-xs rounded-full hover:bg-red-700"
+        (mouseenter)="hoveringDelete = true"
+        (mouseleave)="hoveringDelete = false"
+        (click)="deleteMovie()">
+        ✕
+      </button>
+    }
   </div>
   <div class="p-4 movie-card-t">
     <h1 class="font-bold truncate text-3xl movie-card-title">{{movie.released | date:"dd "}}</h1>

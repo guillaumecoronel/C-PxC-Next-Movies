@@ -11,6 +11,7 @@ import {SupaBaseMovie} from '../../models/movie.model';
 import {SupabaseService} from '../../services/supabase.service';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
+import {User} from '@supabase/supabase-js';
 
 export const MONTHS_FR = [
   { id: 0, label: 'Janvier' },
@@ -50,6 +51,8 @@ export class MovieList implements OnInit,OnDestroy {
   showMovieDetails = false;
   selectedMovie: SupaBaseMovie| null = null;
 
+  public user: User | null = null;
+
   // Filter state
   selectedYear: number = new Date().getFullYear();
   selectedMonth: number = new Date().getMonth();
@@ -63,6 +66,10 @@ export class MovieList implements OnInit,OnDestroy {
     if(environment.mobile) {
       this.androidHandleBackButton();
     }
+
+    this.supabaseService.getUser().then(e=>{
+      this.user = e.data.user;
+    });
 
     this.supabaseService.getMovies().then((results:any) => {
       this.movies = results.data as SupaBaseMovie[];
@@ -199,8 +206,10 @@ export class MovieList implements OnInit,OnDestroy {
   }
 
   public onSelectMovie(m: SupaBaseMovie) {
-    this.selectedMovie = m;
-    this.showMovieDetails = true;
+    if(this.user) {
+      this.selectedMovie = m;
+      this.showMovieDetails = true;
+    }
   }
 
   protected readonly environment = environment;

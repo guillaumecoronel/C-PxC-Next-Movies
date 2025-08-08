@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {OmdbMovie, SupaBaseMovie} from '../../models/movie.model';
 import {DatePipe} from '@angular/common';
+import {User} from '@supabase/supabase-js';
 
 @Component({
   standalone: true,
@@ -13,6 +14,7 @@ import {DatePipe} from '@angular/common';
 })
 export class MovieCard {
   @Input() movie!: SupaBaseMovie;
+  @Input() user: User | null = null;
   @Output() selected = new EventEmitter<SupaBaseMovie>();
   @Output() deletedMovie = new EventEmitter<SupaBaseMovie>();
 

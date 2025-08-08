@@ -5,7 +5,8 @@
       <span class="material-icons">close</span>
     </button>
 
-    <div class="mt-[25vh] md:mt-0 p-4 md:p-0">
+    @if(!user) {
+      <div class="mt-[25vh] md:mt-0 p-4 md:p-0">
       <h1 class="text-3xl font-bold text-white mb-6 text-center">Connexion</h1>
 
       <form [formGroup]="loginForm" (ngSubmit)="signIn()" class="space-y-6" novalidate>
@@ -57,9 +58,21 @@
         </button>
 
         @if(errorMsg){
-          <p class="mt-4 text-red-500 text-center">{{ errorMsg }}</p>
+          <p class="text-red-500 text-center">{{ errorMsg }}</p>
         }
       </form>
     </div>
+    }
+    @if(user) {
+      <div class="mt-[25vh] md:mt-0 p-4 md:p-0">
+        <h1 class="text-3xl font-bold text-white mb-6 text-center">Bonjour, {{user.user_metadata['displayName'] ? user.user_metadata['displayName'] : user.email}}</h1>
+
+        <button
+          class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        (click)="onDisconnect()">
+          Se déconnecter
+        </button>
+      </div>
+    }
   </div>
 </div>

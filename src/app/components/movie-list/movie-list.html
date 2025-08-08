@@ -5,9 +5,14 @@
       <h1 class="text-xl font-bold">Cinéma & Pixel's Club</h1>
     </div>
     <div class="flex items-center space-x-4 actions-button">
-      <button (click)="openSearchDialog()" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
-        <span class="material-icons">add</span>
-      </button>
+      @if(user && user.user_metadata['displayName'] && !environment.mobile){
+        <span class="font-bold">{{user.user_metadata['displayName']}}</span>
+      }
+      @if(user){
+        <button (click)="openSearchDialog()" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+          <span class="material-icons">add</span>
+        </button>
+      }
     </div>
   </div>
 </div>
@@ -60,6 +65,7 @@
     <div class="flex flex-row flex-wrap gap-x-[1rem] justify-center md:justify-normal">
       @for (m of filteredMovies;track m.imdbID) {
         <app-movie-card
+          [user]="user"
           [movie]="m"
           (deletedMovie)="onDeleteMovie($event)"
           (click)="onSelectMovie(m)"

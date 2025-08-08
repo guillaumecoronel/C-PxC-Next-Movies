@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {createClient, PostgrestError, SupabaseClient} from '@supabase/supabase-js';
+import {createClient, PostgrestError, SupabaseClient, UserResponse} from '@supabase/supabase-js';
 import {OmdbMovie, SupaBaseMovie} from '../models/movie.model';
 
 @Injectable({
@@ -14,6 +14,21 @@ export class SupabaseService {
 
   constructor() {
     this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
+  }
+
+  public getUser(){
+    return this.supabase.auth.getUser()
+  }
+
+  public signInWithPassword(email:string, password:string){
+    return this.supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+  }
+
+  public signOut() {
+    return this.supabase.auth.signOut()
   }
 
   // CREATE
