@@ -156,14 +156,17 @@ export class MovieList implements OnInit,OnDestroy {
 
   public onCloseDetailsDialog() {
     this.showMovieDetails = false;
+    document.body.classList.remove('overflow-hidden');
   }
 
   public openSearchDialog(){
     this.showSearchDialog = true;
+    document.body.classList.add('overflow-hidden');
   }
 
   public closeSearchDialog() {
     this.showSearchDialog = false;
+    document.body.classList.remove('overflow-hidden');
   }
 
   public searchDialogComplete(om:SupaBaseMovie | null) {
@@ -209,6 +212,7 @@ export class MovieList implements OnInit,OnDestroy {
     if(this.user) {
       this.selectedMovie = m;
       this.showMovieDetails = true;
+      document.body.classList.add('overflow-hidden');
     }
   }
 
