@@ -1,0 +1,94 @@
+<div #swipeArea class="bg-gray-800 shadow-lg sticky top-0 z-50" [class.is-mobile]="environment.mobile">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <img alt="Logo" src="assets/img/C&Pc-Icone.png" height="64px" width="64px" class="logo"/>
+      <h1 class="text-xl font-bold">Cinéma & Pixel's Club</h1>
+    </div>
+    <div class="flex items-center space-x-4 actions-button">
+      <button (click)="openSearchDialog()" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+        <span class="material-icons">add</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<main class="container mx-auto px-4 py-8">
+
+  <!-- Filter Selectors -->
+  <div class="flex justify-end gap-4 mb-6">
+    <mat-form-field>
+      <mat-label>Année de sortie</mat-label>
+      <mat-select [(ngModel)]="selectedYear" (selectionChange)="onYearsChange($event)">
+        <mat-select-trigger>
+          {{ selectedYear }}
+        </mat-select-trigger>
+        @for (year of availableYears; track year) {
+          <mat-option [value]="year">
+            {{year}}
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500 text-black text-xs font-semibold">
+              {{getMoviesPerYear(year)}}
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Mois de sortie</mat-label>
+      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onMonthChange($event)">
+        <mat-select-trigger>
+          {{ selectedMonth > -1 ? getMonthForId(selectedMonth)!.label : '##Tous##' }}
+        </mat-select-trigger>
+        <mat-option [value]="-1">
+          ##Tous##
+        </mat-option>
+        @for (month of availableMonth; track month) {
+          <mat-option [value]="month.id">
+            {{month.label}}
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500 text-black text-xs font-semibold">
+              {{getMoviesPerYearAndMonth(selectedYear,month.id)}}
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <!-- Movie Grid -->
+  @if (filteredMovies.length > 0) {
+    <div class="flex flex-row flex-wrap gap-x-[1rem] justify-center md:justify-normal">
+      @for (m of filteredMovies;track m.imdbID) {
+        <app-movie-card
+          [movie]="m"
+          (deletedMovie)="onDeleteMovie($event)"
+          (click)="onSelectMovie(m)"
+        >
+        </app-movie-card>
+      }
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (filteredMovies.length === 0) {
+    <div class="text-center py-16">
+      <span class="material-icons text-6xl text-gray-600 mb-4">movie_filter</span>
+      <h3 class="text-xl font-bold mb-2">No Movies Found</h3>
+      <p class="text-gray-400 mb-4">Search for movies to add them to your collection</p>
+    </div>
+  }
+</main>
+
+@if(showSearchDialog) {
+  <app-search-dialog
+    (closeDialog)="closeSearchDialog()"
+    (searchDialogComplete)="searchDialogComplete($event)">
+  </app-search-dialog>
+}
+
+@if(showMovieDetails) {
+  <app-details-dialog
+    [movie]="selectedMovie!"
+    (closeDialog)="onCloseDetailsDialog()">
+  </app-details-dialog>
+}
