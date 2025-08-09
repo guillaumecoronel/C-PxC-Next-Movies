@@ -1,7 +1,7 @@
 <div class="movie-card group flex items-center flex-col" (click)="selectMovie()">
   <div class="relative movie-card__container min-w-[35vh] sm:min-w-[25vh]" [class.shaking]="hoveringDelete">
     <img
-      [src]="movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/300x450?text=No+Poster'"
+      [src]="movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/300x450?text='+formatStringForPlaceholder(movie.title)"
       [alt]="movie.title"
       class="h-full w-full object-cover movie-card-poster" [class.cursor-pointer]="user">
     @if(user){

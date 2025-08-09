@@ -27,4 +27,8 @@ export class MovieCard {
   deleteMovie():void {
     this.deletedMovie.emit(this.movie);
   }
+
+  public formatStringForPlaceholder(s: string) {
+    return s.replace(' ','+')
+  }
 }
