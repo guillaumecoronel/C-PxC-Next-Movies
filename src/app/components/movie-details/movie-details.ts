@@ -4,10 +4,11 @@ import {SupaBaseMovie} from "../../models/movie.model";
 import {TmdbService} from "../../services/tmdb.service";
 import {SupabaseService} from "../../services/supabase.service";
 import {DatePipe} from "@angular/common";
-import {MovieDetail} from "../../models/tmdb.model";
+import {MovieDetail, MovieVideo} from "../../models/tmdb.model";
 import {MatChip, MatChipSet} from "@angular/material/chips";
 import {MinutesToHoursPipe} from "../../pipes/minutes-to-hours.pipe";
 import {formatStringForPlaceholder} from "../../utils/movie.utils";
+import {YoutubePlayer} from "../youtube-player/youtube-player";
 
 @Component({
   selector: 'app-movie-details',
@@ -15,7 +16,8 @@ import {formatStringForPlaceholder} from "../../utils/movie.utils";
         DatePipe,
         MatChipSet,
         MatChip,
-        MinutesToHoursPipe
+        MinutesToHoursPipe,
+        YoutubePlayer
     ],
   templateUrl: './movie-details.html',
   styleUrl: './movie-details.scss'
@@ -28,10 +30,15 @@ export class MovieDetails implements OnInit{
     constructor(private tmdbService:TmdbService) {}
 
     public movieDetail: MovieDetail | null = null;
+    public movieVideo: MovieVideo | null = null;
+    public youtubePlayer: boolean = false;
 
     ngOnInit() {
         this.tmdbService.getMovieDetails(this.movie.imdbID).subscribe(response => {
             this.movieDetail = response;
+        })
+        this.tmdbService.getTmdbLastYoutubeTrailer(this.movie.imdbID).subscribe(response => {
+            this.movieVideo = response;
         })
     }
 
@@ -43,6 +50,10 @@ export class MovieDetails implements OnInit{
 
     public closeDetailsDialog(){
         this.closeDialog.emit(true)
+    }
+
+    public onYoutubePlayerClick(e: boolean){
+        this.youtubePlayer = e;
     }
 
     protected readonly environment = environment;

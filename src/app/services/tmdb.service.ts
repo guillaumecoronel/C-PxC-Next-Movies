@@ -2,7 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, Observable, of} from 'rxjs';
 import {OmdbMovie, SupaBaseMovie} from '../models/movie.model';
 import {Injectable} from '@angular/core';
-import {MovieDetail, tmdbImages} from '../models/tmdb.model';
+import {MovieDetail, MovieVideo, MovieVideoResponse, tmdbImages} from '../models/tmdb.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +38,20 @@ export class TmdbService {
         e.backdrop_path = this.imageUrl + e.backdrop_path
         return e;
       })
+    );
+  }
+
+  getTmdbLastYoutubeTrailer(imdbId:string): Observable<MovieVideo> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.apiToken}`,
+    });
+    // return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images?language=en,fr`,{headers}).pipe(
+    return this.http.get<MovieVideoResponse>(`${this.apiUrl}${imdbId}/videos?language=fr`,{headers}).pipe(
+      map(res =>
+        res.results
+          .filter(v => v.site === 'YouTube' && v.type === 'Trailer')
+          .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())[0] || null
+      )
     );
   }
 }

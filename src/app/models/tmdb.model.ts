@@ -86,3 +86,21 @@ export interface MovieDetail {
   vote_average: number;
   vote_count: number;
 }
+
+export interface MovieVideoResponse {
+  id: number;
+  results: MovieVideo[];
+}
+
+export interface MovieVideo {
+  iso_639_1: string;         // Langue ISO (ex: 'fr')
+  iso_3166_1: string;        // Pays ISO (ex: 'FR')
+  name: string;              // Nom complet de la vidéo
+  key: string;               // ID vidéo YouTube ou clé selon la plateforme
+  site: string;              // Plateforme (ex: 'YouTube')
+  size: number;              // Qualité (ex: 1080)
+  type: string;              // Type de vidéo (Trailer, Clip, Teaser…)
+  official: boolean;         // Est-ce une vidéo officielle ?
+  published_at: string;      // Date ISO de publication
+  id: string;                // ID interne de la ressource
+}
