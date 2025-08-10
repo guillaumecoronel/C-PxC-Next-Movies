@@ -68,7 +68,8 @@
           [user]="user"
           [movie]="m"
           (deletedMovie)="onDeleteMovie($event)"
-          (click)="onSelectMovie(m)"
+          (updatePoster)="onUpdateMoviePoster($event)"
+          (selected)="onSelectMovie(m)"
         >
         </app-movie-card>
       }
@@ -95,7 +96,7 @@
 @if(showMovieChangePoster) {
   <app-details-dialog
     [movie]="selectedMovie!"
-    (closeDialog)="onCloseDetailsDialog()">
+    (closeDialog)="onClosePosterDialog()">
   </app-details-dialog>
 }
 

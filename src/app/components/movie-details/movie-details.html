@@ -17,7 +17,7 @@
     <div class="absolute mt-[25vh] md:relative md:mt-0 md:top-[-2.5rem] h-full ">
       <div class="p-4 formDialog flex">
         <img
-          src="{{this.movie.poster !== 'N/A' ? movie.poster : 'https://via.placeholder.com/50x75?text=No+Poster'}}"
+          src="{{this.movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/300x450?text='+formatStringForPlaceholder(movie.title)}}"
           alt="{{movie.title}}"
           class="object-cover rounded-[25px] max-h-[20vh] max-w-[15vh] min-h-[20vh] min-w-[15vh] shadow-xl">
         <div class="mt-[2rem] pt-[1.5rem] pl-[.5rem] md:pt-0">

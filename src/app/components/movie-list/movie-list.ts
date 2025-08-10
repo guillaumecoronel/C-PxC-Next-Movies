@@ -105,10 +105,13 @@ export class MovieList implements OnInit,OnDestroy {
     this.platform.ready().then(() => {
       this.backListener = CapApp.addListener('backButton', ({ canGoBack }) => {
         this.ngZone.run(() => {
+          document.body.classList.remove('overflow-hidden');
           if(this.showMovieDetails) {
             this.showMovieDetails = false
           } else if(this.showSearchDialog){
             this.showSearchDialog = false
+          } else if(this.showMovieChangePoster){
+            this.showMovieChangePoster = false
           } else {
             CapApp.minimizeApp();
           }
@@ -162,6 +165,11 @@ export class MovieList implements OnInit,OnDestroy {
     document.body.classList.remove('overflow-hidden');
   }
 
+  public onClosePosterDialog() {
+    this.showMovieChangePoster = false;
+    document.body.classList.remove('overflow-hidden');
+  }
+
   public openSearchDialog(){
     this.showSearchDialog = true;
     document.body.classList.add('overflow-hidden');
@@ -212,9 +220,15 @@ export class MovieList implements OnInit,OnDestroy {
   }
 
   public onSelectMovie(m: SupaBaseMovie) {
-    if(this.user) {
       this.selectedMovie = m;
       this.showMovieDetails = true;
+      document.body.classList.add('overflow-hidden');
+  }
+
+  public onUpdateMoviePoster(m: SupaBaseMovie){
+    if(this.user) {
+      this.selectedMovie = m;
+      this.showMovieChangePoster = true;
       document.body.classList.add('overflow-hidden');
     }
   }

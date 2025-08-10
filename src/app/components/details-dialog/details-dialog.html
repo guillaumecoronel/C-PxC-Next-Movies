@@ -1,5 +1,5 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center md:p-4 backdrop-blur" [class.is-mobile]="environment.mobile" (click)="onBackdropClick($event)">
-  <div #dialogContent class="bg-gray-800 rounded-lg shadow-xl h-full md:h-auto md:max-w-lg w-full md:max-h-[90vh] w-full overflow-hidden flex flex-col fade-in">
+  <div #detailDialog class="bg-gray-800 rounded-lg shadow-xl h-full md:h-auto md:max-w-lg w-full md:max-h-[90vh] w-full overflow-hidden flex flex-col fade-in">
     <div class="p-4 border-b border-gray-700 flex justify-between items-center">
       <h2 class="text-xl font-bold">{{movie.title}}</h2>
       <button (click)="closeDetailsDialog()" class="text-gray-400 hover:text-white">

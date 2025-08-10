@@ -6,10 +6,19 @@
       class="h-full w-full object-cover movie-card-poster" [class.cursor-pointer]="user">
     @if(user){
       <button
+        class="absolute top-2 left-2 cursor-pointer z-10 md:hidden group-hover:flex items-center justify-center bg-yellow-500 text-black w-10 md:w-6 h-10 md:h-6 text-xl md:text-xs! rounded-full hover:bg-yellow-600"
+        (mouseenter)="!environment.mobile ? hoveringDelete = true : ''"
+        (mouseleave)="!environment.mobile ? hoveringDelete = false : ''"
+        (click)="updateMoviePoster($event)">
+        <span class="material-icons md:text-base! test">image</span>
+      </button>
+    }
+    @if(user){
+      <button
         class="absolute cursor-pointer top-2 right-2 z-10 md:hidden group-hover:flex items-center justify-center bg-red-600 text-white w-10 md:w-6 h-10 md:h-6 text-xl md:text-xs rounded-full hover:bg-red-700"
-        (mouseenter)="hoveringDelete = true"
-        (mouseleave)="hoveringDelete = false"
-        (click)="deleteMovie()">
+        (mouseenter)="!environment.mobile ? hoveringDelete = true : ''"
+        (mouseleave)="!environment.mobile ? hoveringDelete = false : ''"
+        (click)="deleteMovie($event)">
         ✕
       </button>
     }

@@ -26,7 +26,7 @@ export class DetailsDialog implements OnInit {
   @Input() movie!: SupaBaseMovie;
   @Output() closeDialog = new EventEmitter<boolean>();
   @ViewChild('panel') panelRef!: ElementRef;
-  @ViewChild('dialogContent') dialogContentRef!: ElementRef;
+  @ViewChild('detailDialog') dialogContentRef!: ElementRef;
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {

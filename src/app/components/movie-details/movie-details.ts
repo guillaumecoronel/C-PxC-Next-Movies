@@ -7,6 +7,7 @@ import {DatePipe} from "@angular/common";
 import {MovieDetail} from "../../models/tmdb.model";
 import {MatChip, MatChipSet} from "@angular/material/chips";
 import {MinutesToHoursPipe} from "../../pipes/minutes-to-hours.pipe";
+import {formatStringForPlaceholder} from "../../utils/movie.utils";
 
 @Component({
   selector: 'app-movie-details',
@@ -45,4 +46,5 @@ export class MovieDetails implements OnInit{
     }
 
     protected readonly environment = environment;
+    protected readonly formatStringForPlaceholder = formatStringForPlaceholder;
 }
