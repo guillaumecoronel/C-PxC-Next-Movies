@@ -12,6 +12,7 @@ import {SupabaseService} from '../../services/supabase.service';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {User} from '@supabase/supabase-js';
+import {MovieDetails} from '../movie-details/movie-details';
 
 export const MONTHS_FR = [
   { id: 0, label: 'Janvier' },
@@ -38,6 +39,7 @@ export const MONTHS_FR = [
     MatBadgeModule,
     MatSelectModule,
     DetailsDialog,
+    MovieDetails,
   ],
   templateUrl: './movie-list.html',
   styleUrl: './movie-list.scss'
@@ -48,6 +50,7 @@ export class MovieList implements OnInit,OnDestroy {
   movies: SupaBaseMovie[] = [];
   filteredMovies: SupaBaseMovie[] = [];
   showSearchDialog = false;
+  showMovieChangePoster = false;
   showMovieDetails = false;
   selectedMovie: SupaBaseMovie| null = null;
 

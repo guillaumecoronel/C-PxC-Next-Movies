@@ -2,7 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, Observable, of} from 'rxjs';
 import {OmdbMovie, SupaBaseMovie} from '../models/movie.model';
 import {Injectable} from '@angular/core';
-import {tmdbImages} from '../models/tmdb.model';
+import {MovieDetail, tmdbImages} from '../models/tmdb.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,16 @@ export class TmdbService {
     );
   }
 
-
-
+  getMovieDetails(imdbId:string): Observable<MovieDetail> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.apiToken}`,
+    });
+    // return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images?language=en,fr`,{headers}).pipe(
+    return this.http.get<MovieDetail>(`${this.apiUrl}${imdbId}?language=fr`,{headers}).pipe(
+      map(e => {
+        e.backdrop_path = this.imageUrl + e.backdrop_path
+        return e;
+      })
+    );
+  }
 }

@@ -92,9 +92,16 @@
   </app-search-dialog>
 }
 
-@if(showMovieDetails) {
+@if(showMovieChangePoster) {
   <app-details-dialog
     [movie]="selectedMovie!"
     (closeDialog)="onCloseDetailsDialog()">
   </app-details-dialog>
+}
+
+@if(showMovieDetails) {
+  <app-movie-details
+    [movie]="selectedMovie!"
+    (closeDialog)="onCloseDetailsDialog()">
+  </app-movie-details>
 }
