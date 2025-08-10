@@ -1,4 +1,4 @@
-<div #swipeArea class="bg-gray-800 shadow-lg fixed left-0 right-0 top-0 z-50" [class.is-mobile]="environment.mobile">
+<div #swipeArea class="bg-gray-800 shadow-lg sticky top-0 z-50" [class.is-mobile]="environment.mobile">
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center space-x-2">
       <img alt="Logo" src="assets/img/C&Pc-Icone.png" height="64px" width="64px" class="logo" (dblclick)="onDblClick()"/>
@@ -20,7 +20,7 @@
 <main class="container mx-auto px-4 py-8">
 
   <!-- Filter Selectors -->
-  <div class="flex justify-end gap-4 mb-6">
+  <div class="flex justify-end gap-4">
     <mat-form-field>
       <mat-label>Année de sortie</mat-label>
       <mat-select [(ngModel)]="selectedYear" (selectionChange)="onYearsChange($event)">
