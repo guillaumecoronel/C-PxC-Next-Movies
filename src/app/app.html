@@ -1,1 +1,8 @@
+@if(debugService.visibility) {
+  <div class="debug-panel">
+    @for(log of debugService.logs;track log){
+      <div>{{ log }}</div>
+    }
+  </div>
+}
 <router-outlet></router-outlet>

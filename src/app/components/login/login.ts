@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SupabaseService} from '../../services/supabase.service';
 import {User} from '@supabase/supabase-js';
+import {DebugService} from '../../services/debug.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class Login implements OnInit {
 
   public user : User | null = null;
 
-  constructor(private router: Router,private route: ActivatedRoute,private fb: FormBuilder, private supabaseService: SupabaseService) {
+  constructor(private router: Router,private route: ActivatedRoute,private fb: FormBuilder, private supabaseService: SupabaseService, private debugService: DebugService) {
   }
 
   ngOnInit() {
@@ -31,9 +32,6 @@ export class Login implements OnInit {
       password: ['', Validators.required],
     });
 
-    // this.supabaseService.getUser().then(u => {
-    //   this.user = u.data.user;
-    // })
     this.user = this.route.snapshot.data['user'];
   }
 
@@ -80,6 +78,18 @@ export class Login implements OnInit {
 
   get password() {
     return this.loginForm.get('password');
+  }
+
+  public setLogVisibility(){
+    this.debugService.visibility = !this.debugService.visibility;
+  }
+
+  public getLogVisibility() {
+    return this.debugService.visibility
+  }
+
+  public clearLog(){
+      this.debugService.clearLogs()
   }
 
   protected readonly environment = environment;

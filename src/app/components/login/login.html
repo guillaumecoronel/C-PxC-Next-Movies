@@ -1,9 +1,23 @@
 <div class="w-full h-full flex flex-col items-center justify-center min-h-screen bg-gray-800 md:bg-gray-700 md:p-4 backdrop-blur" [class.is-mobile]="environment.mobile">
   <div #test class="bg-gray-800 md:rounded-lg shadow-xl h-full md:h-auto md:max-w-md w-full md:max-h-[90vh] p-4 flex flex-col md:justify-center">
 
-    <button class="text-gray-400 hover:text-white self-end" (click)="onCloseLogin()">
-      <span class="material-icons">close</span>
-    </button>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-x-[1rem]">
+        @if(user){
+          <button (click)="setLogVisibility()" class="text-yellow-500 hover:text-white cursor-pointer">
+            <span class="material-icons">{{ getLogVisibility() ? 'subtitles_off' : 'subtitles'}}</span>
+          </button>
+        }
+        @if(user){
+          <button (click)="clearLog()" class="text-yellow-500 hover:text-white cursor-pointer">
+            <span class="material-icons">delete</span>
+          </button>
+        }
+      </div>
+      <button class="text-gray-400 hover:text-white cursor-pointer" (click)="onCloseLogin()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
 
     @if(!user) {
       <div class="mt-[25vh] md:mt-0 p-4 md:p-0">

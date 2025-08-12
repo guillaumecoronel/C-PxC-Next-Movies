@@ -26,3 +26,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding-top: 2rem;
   //background-color: #111; /* ou tout style spécifique mobile */
 }
+
+ion-toast.overrideToast::part(button) {
+    color: var(--color-yellow-500);
+}
+
+ion-toast.overrideToast::part(cancel) {
+  color: white;
+}

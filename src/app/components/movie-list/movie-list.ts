@@ -4,7 +4,7 @@ import {SearchDialog} from '../search-dialog/search-dialog';
 import {FormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSelectModule} from '@angular/material/select';
-import {Platform} from '@ionic/angular';
+import {IonicModule, Platform} from '@ionic/angular';
 import { App as CapApp } from '@capacitor/app';
 import {DetailsDialog} from '../details-dialog/details-dialog';
 import {SupaBaseMovie} from '../../models/movie.model';
@@ -13,6 +13,7 @@ import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {User} from '@supabase/supabase-js';
 import {MovieDetails} from '../movie-details/movie-details';
+import {AppUpdateService} from '../../services/app-update.service';
 
 export const MONTHS_FR = [
   { id: 0, label: 'Janvier' },
@@ -39,7 +40,7 @@ export const MONTHS_FR = [
     MatBadgeModule,
     MatSelectModule,
     DetailsDialog,
-    MovieDetails,
+    MovieDetails
   ],
   templateUrl: './movie-list.html',
   styleUrl: './movie-list.scss'

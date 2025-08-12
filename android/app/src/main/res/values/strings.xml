@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">C&amp;Px</string>
-    <string name="title_activity_main">C&amp;Px</string>
+    <string name="app_name">CineSoon</string>
+    <string name="title_activity_main">CineSoon</string>
     <string name="package_name">com.cpcnext.app</string>
     <string name="custom_url_scheme">com.cpcnext.app</string>
 </resources>

@@ -1,5 +1,5 @@
 import {
-  ApplicationConfig,
+  ApplicationConfig, importProvidersFrom,
   LOCALE_ID,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection
@@ -9,6 +9,7 @@ import localeFr from '@angular/common/locales/fr';
 import { appRoutes } from './app.routes';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {registerLocaleData} from '@angular/common';
+import {IonicModule} from '@ionic/angular';
 
 registerLocaleData(localeFr); // Enregistre les données locales pour 'fr'
 
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    importProvidersFrom(IonicModule.forRoot()),
     provideRouter(appRoutes),
     provideHttpClient(withInterceptorsFromDi()),
     { provide: LOCALE_ID, useValue: 'fr-FR' }
