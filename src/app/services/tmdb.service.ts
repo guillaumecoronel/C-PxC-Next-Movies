@@ -2,7 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, Observable, of} from 'rxjs';
 import {OmdbMovie, SupaBaseMovie} from '../models/movie.model';
 import {Injectable} from '@angular/core';
-import {MovieDetail, MovieVideo, MovieVideoResponse, tmdbImages} from '../models/tmdb.model';
+import {MovieDetail, MovieVideo, MovieVideoResponse, tmdbImages, TmdbMovieCastResponse} from '../models/tmdb.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +46,7 @@ export class TmdbService {
       'Authorization': `Bearer ${this.apiToken}`,
     });
     // return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images?language=en,fr`,{headers}).pipe(
-    return this.http.get<MovieVideoResponse>(`${this.apiUrl}${imdbId}/videos?language=fr`,{headers}).pipe(
+    return this.http.get<MovieVideoResponse>(`${this.apiUrl}${imdbId}/videos?language=fr`, {headers}).pipe(
       map(res =>
         res.results
           .filter(v => v.site === 'YouTube' && v.type === 'Trailer')
@@ -54,4 +54,21 @@ export class TmdbService {
       )
     );
   }
+
+    getTmdbCrewInfos(imdbId:string): Observable<TmdbMovieCastResponse> {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.apiToken}`,
+      });
+      return this.http.get<TmdbMovieCastResponse>(`${this.apiUrl}${imdbId}/credits`,{headers}).pipe(
+        map(e => {
+          e.cast.map(c => {
+            c.profile_path = this.imageUrl + c.profile_path
+          })
+          e.crew.map(c => {
+            c.profile_path = this.imageUrl + c.profile_path
+          })
+          return e;
+        })
+      );
+    }
 }

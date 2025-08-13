@@ -1,5 +1,5 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center md:p-4 backdrop-blur" (click)="onBackdropClick($event)">
-  <div #dialogContent [class.is-mobile]="environment.mobile" class="bg-gray-800 rounded-lg shadow-xl h-full md:max-w-lg w-full w-full overflow-hidden flex flex-col fade-in">
+  <div #dialogContent [class.is-mobile]="environment.mobile" class="relative bg-gray-800 rounded-lg shadow-xl h-full md:max-w-3xl w-full w-full overflow-hidden flex flex-col fade-in">
     <div class="p-4 border-b border-gray-700 flex justify-between items-center">
       <h2 class="text-xl font-bold">{{movie.title}}</h2>
       <button (click)="closeDetailsDialog()" class="text-gray-400 hover:text-white">
@@ -11,7 +11,7 @@
       <img
         src="{{movieDetail?.backdrop_path !== 'N/A' ? movieDetail?.backdrop_path : 'https://via.placeholder.com/50x75?text=No+Poster'}}"
         alt="{{movie.title}}"
-        class="">
+        class="md:max-h-[30vh] object-cover">
     </div>
 
     <div class="absolute mt-[25vh] md:relative md:mt-0 md:top-[-2.5rem] h-full w-full">
@@ -33,26 +33,86 @@
         </div>
       </div>
 
-      <div class="pt-[.5rem] pb-[.5rem] pl-[1.5rem] pr-[1.5rem] h-full bg-gray-700 overflow-auto block">
+      <div class="pt-[.5rem] pb-[.5rem] h-full bg-gray-700 block">
         <div class="flex flex-col">
-            <div class="flex gap-x-[1rem] items-center justify-center">
-             <span (click)="onYoutubePlayerClick(false)" class="cursor-pointer material-icons text-yellow-500 font-bold text-4xl! self-center">description</span>
-             <span (click)="onYoutubePlayerClick(true)" class="cursor-pointer material-icons text-yellow-500 font-bold text-4xl! self-center">movie</span>
+            <div #actionPanel class="flex gap-x-[1rem] items-center justify-center pl-[1.5rem] pr-[1.5rem]">
+             <span (click)="onMovieDetailPanelClick('description')" class="cursor-pointer material-icons text-yellow-500 font-bold text-4xl! self-center">description</span>
+              <span (click)="onMovieDetailPanelClick('crew')" class="cursor-pointer material-icons text-yellow-500 font-bold text-4xl! self-center">group</span>
+             <span (click)="onMovieDetailPanelClick('youtube')" class="cursor-pointer material-icons text-yellow-500 font-bold text-4xl! self-center">movie</span>
             </div>
-            <span class="border-b border-white mb-[.5rem]"></span>
-            @if(youtubePlayer) {
-                <app-youtube-player
-                        [videoId]=movieVideo?.key>
-                </app-youtube-player>
+            <span class="border-b border-white mb-[.5rem] ml-[1.5rem] mr-[1.5rem]"></span>
+            <div class="ml-[1.5rem] mr-[1.5rem]">
+              @if(movieDetailPanel==='youtube') {
+                    <app-youtube-player
+                            [videoId]=movieVideo?.key>
+                    </app-youtube-player>
+                }
+            </div>
+            @if(movieDetailPanel==='crew' && ((movieCast && movieCast.length > 0) || (movieCrew && movieCrew.length > 0))) {
+              <span class="text-yellow-500 text-xl ml-[1.5rem] mr-[1.5rem]">Acteurs</span>
+              <div #actorsSection class="relative flex gap-x-[1rem] md:gap-x-[2rem] gap-y-[2rem]"
+                (mouseenter)="scrollActors=true"
+                (mouseleave)="scrollActors=false">
+                @if(!environment.mobile && scrollActors) {
+                  <button (click)="onScroll(scrollActor,'left')" class="absolute left-0 top-1/5 z-100 ml-[1rem] flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                    <span class="material-icons">chevron_left</span>
+                  </button>
+                }
+                @if(!environment.mobile && scrollActors) {
+                  <button (click)="onScroll(scrollActor,'right')" class="absolute right-0 top-1/5 mr-[1rem] z-100 flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                    <span class="material-icons">chevron_right</span>
+                  </button>
+                }
+                <div #scrollActor class="ml-[1.5rem] mr-[1.5rem] flex gap-x-[1.5rem] md:gap-x-[2.5rem] overflow-x-auto"  [class.overflow-x-hidden]="!environment.mobile">
+                    @for(crew of getActorsFromMovieCrew();track crew.id){
+                        <div class="flex flex-col items-center gap-y-[.5rem] flex-shrink-0">
+                          <img [src]="crew.profile_path" [alt]="crew.name" class="rounded-full w-[6rem] h-[6rem] object-cover border-[2px] border-white hover:border-yellow-500"/>
+                          <div class="flex flex-col items-center justify-center">
+                            <span class="text-sm max-w-[8rem] text-center">{{crew.name}}</span>
+                            <span class="text-sm max-w-[8rem] text-center text-yellow-500">{{crew.character}}</span>
+                          </div>
+                        </div>
+                    }
+                </div>
+              </div>
+              <span class="text-yellow-500 text-xl ml-[1.5rem] mr-[1.5rem]">Equipe technique</span>
+              <div #technicalsSection class="relative flex gap-x-[1rem] md:gap-x-[2rem] gap-y-[2rem]"
+                   (mouseenter)="scrollTechnicals=true"
+                   (mouseleave)="scrollTechnicals=false">
+                @if(!environment.mobile && scrollTechnicals) {
+                  <button (click)="onScroll(scrollTechnical,'left')" class="absolute left-0 top-1/5 z-100 ml-[1rem] flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                    <span class="material-icons">chevron_left</span>
+                  </button>
+                }
+                @if(!environment.mobile && scrollTechnicals) {
+                  <button (click)="onScroll(scrollTechnical,'right')" class="absolute right-0 top-1/5 mr-[1rem] z-100 flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                    <span class="material-icons">chevron_right</span>
+                  </button>
+                }
+                <div #scrollTechnical class="ml-[1.5rem] mr-[1.5rem] flex gap-x-[1.5rem] md:gap-x-[2.5rem] overflow-x-auto"  [class.overflow-x-hidden]="!environment.mobile">
+                  @for(technicalsCrew of getActorsFromMovieTechnicalsCrew();track technicalsCrew.id){
+                    <div class="flex flex-col items-center gap-y-[.5rem] flex-shrink-0">
+                      <img [src]="technicalsCrew.profile_path" [alt]="technicalsCrew.name" class="rounded-full w-[6rem] h-[6rem] object-cover border-[2px] border-white hover:border-yellow-500"/>
+                      <div class="flex flex-col items-center justify-center">
+                        <span class="text-sm max-w-[8rem] text-center">{{technicalsCrew.name}}</span>
+                        <span class="text-sm max-w-[8rem] text-center text-yellow-500">{{technicalsCrew.job}}</span>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
             }
-            @if(!youtubePlayer) {
-                <span>{{movieDetail?.overview}}</span>
+            @if(movieDetailPanel==='description') {
+              <div class="overflow-auto max-h-[45vh]">
+                <span #description class="inline-block ml-[1.5rem] mr-[1.5rem]">{{movieDetail?.overview}}</span>
+              </div>
             }
         </div>
       </div>
     </div>
-
   </div>
 </div>
+
+
 
 

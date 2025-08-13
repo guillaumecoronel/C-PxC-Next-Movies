@@ -104,3 +104,38 @@ export interface MovieVideo {
   published_at: string;      // Date ISO de publication
   id: string;                // ID interne de la ressource
 }
+
+export interface TmdbMovieCastResponse {
+  id: number;
+  cast: TmdbCastMember[];
+  crew: TmdbCrewMember[];
+}
+
+export interface TmdbCastMember {
+  adult: boolean;
+  gender: number; // 0 = inconnu, 1 = femme, 2 = homme
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
+}
+
+export interface TmdbCrewMember {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  credit_id: string;
+  department: string;
+  job: string;
+}
