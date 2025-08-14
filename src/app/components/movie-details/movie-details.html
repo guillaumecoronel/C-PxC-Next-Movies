@@ -11,7 +11,7 @@
       <img
         src="{{movieDetail?.backdrop_path !== 'N/A' ? movieDetail?.backdrop_path : 'https://via.placeholder.com/50x75?text=No+Poster'}}"
         alt="{{movie.title}}"
-        class="md:max-h-[30vh] object-cover">
+        class="max-h-[25vh] md:max-h-[30vh] object-cover">
     </div>
 
     <div class="absolute mt-[25vh] md:relative md:mt-0 md:top-[-2.5rem] h-full w-full">
@@ -19,8 +19,8 @@
         <img
           src="{{this.movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/300x450?text='+formatStringForPlaceholder(movie.title)}}"
           alt="{{movie.title}}"
-          class="object-cover rounded-[25px] max-h-[20vh] max-w-[15vh] min-h-[20vh] min-w-[15vh] shadow-xl">
-        <div class="mt-[2rem] pt-[1.5rem] pl-[.5rem] md:pt-0">
+          class="absolute object-cover rounded-[25px] max-h-[20vh] max-w-[15vh] min-h-[20vh] min-w-[15vh] shadow-xl">
+        <div class="mt-[2rem] pt-[1.5rem] pl-[.5rem] md:pt-0 ml-[15vh] md:h-auto h-[15vh] mb-[.5rem]">
           <div class="flex items-center gap-x-[.5rem]">
             <span class="material-icons text-yellow-500 font-bold text-4xl!">schedule</span>
             <span>{{movie.released | date:"dd/MM/yyyy"}} - {{movieDetail?.runtime | minutesToHours}}min</span>
@@ -40,73 +40,75 @@
               <span (click)="onMovieDetailPanelClick('crew')" class="cursor-pointer material-icons text-yellow-500 font-bold text-4xl! self-center">group</span>
              <span (click)="onMovieDetailPanelClick('youtube')" class="cursor-pointer material-icons text-yellow-500 font-bold text-4xl! self-center">movie</span>
             </div>
-            <span class="border-b border-white mb-[.5rem] ml-[1.5rem] mr-[1.5rem]"></span>
-            <div class="ml-[1.5rem] mr-[1.5rem]">
-              @if(movieDetailPanel==='youtube') {
-                    <app-youtube-player
-                            [videoId]=movieVideo?.key>
-                    </app-youtube-player>
-                }
-            </div>
-            @if(movieDetailPanel==='crew' && ((movieCast && movieCast.length > 0) || (movieCrew && movieCrew.length > 0))) {
-              <span class="text-yellow-500 text-xl ml-[1.5rem] mr-[1.5rem]">Acteurs</span>
-              <div #actorsSection class="relative flex gap-x-[1rem] md:gap-x-[2rem] gap-y-[2rem]"
-                (mouseenter)="scrollActors=true"
-                (mouseleave)="scrollActors=false">
-                @if(!environment.mobile && scrollActors) {
-                  <button (click)="onScroll(scrollActor,'left')" class="absolute left-0 top-1/5 z-100 ml-[1rem] flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
-                    <span class="material-icons">chevron_left</span>
-                  </button>
-                }
-                @if(!environment.mobile && scrollActors) {
-                  <button (click)="onScroll(scrollActor,'right')" class="absolute right-0 top-1/5 mr-[1rem] z-100 flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
-                    <span class="material-icons">chevron_right</span>
-                  </button>
-                }
-                <div #scrollActor class="ml-[1.5rem] mr-[1.5rem] flex gap-x-[1.5rem] md:gap-x-[2.5rem] overflow-x-auto"  [class.overflow-x-hidden]="!environment.mobile">
-                    @for(crew of getActorsFromMovieCrew();track crew.id){
-                        <div class="flex flex-col items-center gap-y-[.5rem] flex-shrink-0">
-                          <img [src]="crew.profile_path" [alt]="crew.name" class="rounded-full w-[6rem] h-[6rem] object-cover border-[2px] border-white hover:border-yellow-500"/>
-                          <div class="flex flex-col items-center justify-center">
-                            <span class="text-sm max-w-[8rem] text-center truncate">{{crew.name}}</span>
-                            <span class="text-sm max-w-[8rem] text-center text-yellow-500 truncate">{{crew.character}}</span>
-                          </div>
-                        </div>
-                    }
-                </div>
-              </div>
-              <span class="text-yellow-500 text-xl ml-[1.5rem] mr-[1.5rem]">Equipe technique</span>
-              <div #technicalsSection class="relative flex gap-x-[1rem] md:gap-x-[2rem] gap-y-[2rem]"
-                   (mouseenter)="scrollTechnicals=true"
-                   (mouseleave)="scrollTechnicals=false">
-                @if(!environment.mobile && scrollTechnicals) {
-                  <button (click)="onScroll(scrollTechnical,'left')" class="absolute left-0 top-1/5 z-100 ml-[1rem] flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
-                    <span class="material-icons">chevron_left</span>
-                  </button>
-                }
-                @if(!environment.mobile && scrollTechnicals) {
-                  <button (click)="onScroll(scrollTechnical,'right')" class="absolute right-0 top-1/5 mr-[1rem] z-100 flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
-                    <span class="material-icons">chevron_right</span>
-                  </button>
-                }
-                <div #scrollTechnical class="ml-[1.5rem] mr-[1.5rem] flex gap-x-[1.5rem] md:gap-x-[2.5rem] overflow-x-auto"  [class.overflow-x-hidden]="!environment.mobile">
-                  @for(technicalsCrew of getActorsFromMovieTechnicalsCrew();track technicalsCrew.id){
-                    <div class="flex flex-col items-center gap-y-[.5rem] flex-shrink-0">
-                      <img [src]="technicalsCrew.profile_path" [alt]="technicalsCrew.name" class="rounded-full w-[6rem] h-[6rem] object-cover border-[2px] border-white hover:border-yellow-500"/>
-                      <div class="flex flex-col items-center justify-center">
-                        <span class="text-sm max-w-[8rem] text-center truncate">{{technicalsCrew.name}}</span>
-                        <span class="text-sm max-w-[8rem] text-center text-yellow-500 truncate">{{technicalsCrew.job}}</span>
-                      </div>
-                    </div>
+            <span class="border-b border-white mb-[.5rem] ml-[1.5rem] mr-[1.5rem] md:ml-[2rem]"></span>
+            <div class="md:mt-[1rem]">
+              <div class="ml-[1.5rem] mr-[1.5rem]">
+                @if(movieDetailPanel==='youtube') {
+                      <app-youtube-player
+                              [videoId]=movieVideo?.key>
+                      </app-youtube-player>
                   }
+              </div>
+              @if(movieDetailPanel==='crew' && ((movieCast && movieCast.length > 0) || (movieCrew && movieCrew.length > 0))) {
+                <span class="text-yellow-500 text-xl ml-[1.5rem] mr-[1.5rem]">Acteurs</span>
+                <div #actorsSection class="relative flex gap-x-[1rem] md:gap-x-[2rem] gap-y-[2rem]"
+                  (mouseenter)="scrollActors=true"
+                  (mouseleave)="scrollActors=false">
+                  @if(!environment.mobile && scrollActors) {
+                    <button (click)="onScroll(scrollActor,'left')" class="absolute left-0 top-1/5 z-100 ml-[1rem] flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                      <span class="material-icons">chevron_left</span>
+                    </button>
+                  }
+                  @if(!environment.mobile && scrollActors) {
+                    <button (click)="onScroll(scrollActor,'right')" class="absolute right-0 top-1/5 mr-[1rem] z-100 flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                      <span class="material-icons">chevron_right</span>
+                    </button>
+                  }
+                  <div #scrollActor class="ml-[1.5rem] mr-[1.5rem] flex gap-x-[1.5rem] md:gap-x-[2.5rem] overflow-x-auto"  [class.overflow-x-hidden]="!environment.mobile">
+                      @for(crew of getActorsFromMovieCrew();track crew.id){
+                          <div class="flex flex-col items-center gap-y-[.5rem] flex-shrink-0">
+                            <img [src]="crew.profile_path" [alt]="crew.name" class="rounded-full w-[6rem] h-[6rem] object-cover border-[2px] border-white hover:border-yellow-500"/>
+                            <div class="flex flex-col items-center justify-center">
+                              <span class="text-sm max-w-[8rem] text-center truncate">{{crew.name}}</span>
+                              <span class="text-sm max-w-[8rem] text-center text-yellow-500 truncate">{{crew.character}}</span>
+                            </div>
+                          </div>
+                      }
+                  </div>
                 </div>
-              </div>
-            }
-            @if(movieDetailPanel==='description') {
-              <div class="overflow-auto max-h-[45vh]">
-                <span #description class="inline-block ml-[1.5rem] mr-[1.5rem]">{{movieDetail?.overview}}</span>
-              </div>
-            }
+                <span class="text-yellow-500 text-xl ml-[1.5rem] mr-[1.5rem]">Equipe technique</span>
+                <div #technicalsSection class="relative flex gap-x-[1rem] md:gap-x-[2rem] gap-y-[2rem]"
+                     (mouseenter)="scrollTechnicals=true"
+                     (mouseleave)="scrollTechnicals=false">
+                  @if(!environment.mobile && scrollTechnicals) {
+                    <button (click)="onScroll(scrollTechnical,'left')" class="absolute left-0 top-1/5 z-100 ml-[1rem] flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                      <span class="material-icons">chevron_left</span>
+                    </button>
+                  }
+                  @if(!environment.mobile && scrollTechnicals) {
+                    <button (click)="onScroll(scrollTechnical,'right')" class="absolute right-0 top-1/5 mr-[1rem] z-100 flex items-center justify-center opacity-75 hover:opacity-100 bg-yellow-500 text-gray-900 rounded-full p-2 transition-colors duration-200 cursor-pointer">
+                      <span class="material-icons">chevron_right</span>
+                    </button>
+                  }
+                  <div #scrollTechnical class="ml-[1.5rem] mr-[1.5rem] flex gap-x-[1.5rem] md:gap-x-[2.5rem] overflow-x-auto"  [class.overflow-x-hidden]="!environment.mobile">
+                    @for(technicalsCrew of getActorsFromMovieTechnicalsCrew();track technicalsCrew.credit_id){
+                      <div class="flex flex-col items-center gap-y-[.5rem] flex-shrink-0">
+                        <img [src]="technicalsCrew.profile_path" [alt]="technicalsCrew.name" class="rounded-full w-[6rem] h-[6rem] object-cover border-[2px] border-white hover:border-yellow-500"/>
+                        <div class="flex flex-col items-center justify-center">
+                          <span class="text-sm max-w-[8rem] text-center truncate">{{technicalsCrew.name}}</span>
+                          <span class="text-sm max-w-[8rem] text-center text-yellow-500 truncate">{{technicalsCrew.job}}</span>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+              @if(movieDetailPanel==='description') {
+                <div class="overflow-auto max-h-[45vh]">
+                  <span #description class="inline-block ml-[1.5rem] mr-[1.5rem]">{{movieDetail?.overview}}</span>
+                </div>
+              }
+            </div>
         </div>
       </div>
     </div>

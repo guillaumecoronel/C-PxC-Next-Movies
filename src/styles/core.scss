@@ -24,7 +24,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .is-mobile {
   padding-top: 2rem;
-  //background-color: #111; /* ou tout style spécifique mobile */
+  //padding-top: env(safe-area-inset-top, 0px);
 }
 
 ion-toast.overrideToast::part(button) {
