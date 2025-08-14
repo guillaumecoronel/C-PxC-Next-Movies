@@ -3,7 +3,7 @@
     <img
       [src]="movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/300x450?text='+formatStringForPlaceholder(movie.title)"
       [alt]="movie.title"
-      class="h-full w-full object-cover movie-card-poster" [class.cursor-pointer]="user">
+      class="h-full w-full object-cover movie-card-poster cursor-pointer">
     @if(user){
       <button
         class="absolute top-2 left-2 cursor-pointer z-10 md:hidden group-hover:flex items-center justify-center bg-yellow-500 text-black w-10 md:w-6 h-10 md:h-6 text-xl md:text-xs! rounded-full hover:bg-yellow-600"

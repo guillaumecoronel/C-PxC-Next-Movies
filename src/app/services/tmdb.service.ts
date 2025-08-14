@@ -10,7 +10,7 @@ import {MovieDetail, MovieVideo, MovieVideoResponse, tmdbImages, TmdbMovieCastRe
 export class TmdbService {
   private apiToken = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDhkMTk3MDRjNzkwODM1N2M5ZTA1ZGFkOTI2ZWNmNSIsIm5iZiI6MTc1Mzk0OTk5NS43ODksInN1YiI6IjY4OGIyNzJiYjllNWM0MTNiNjUxZDJkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.6SFoK8aagQ446Tl4VhRwKVeWKC7OcuvYk-ecaa3aYLs';
   private apiUrl = 'https://api.themoviedb.org/3/movie/';
-  private imageUrl:string = 'https://image.tmdb.org/t/p/w300/'
+  private imageUrl:string = 'https://image.tmdb.org/t/p/'
 
   constructor(private http: HttpClient) {}
 
@@ -18,11 +18,10 @@ export class TmdbService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.apiToken}`,
     });
-    // return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images?language=en,fr`,{headers}).pipe(
     return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images`,{headers}).pipe(
       map(ti => {
         return ti.posters.map(p => {
-          return this.imageUrl+p.file_path
+          return `${this.imageUrl}w300/${p.file_path}`
         })
       })
     );
@@ -35,7 +34,7 @@ export class TmdbService {
     // return this.http.get<tmdbImages>(`${this.apiUrl}${imdbId}/images?language=en,fr`,{headers}).pipe(
     return this.http.get<MovieDetail>(`${this.apiUrl}${imdbId}?language=fr`,{headers}).pipe(
       map(e => {
-        e.backdrop_path = this.imageUrl + e.backdrop_path
+        e.backdrop_path = `${this.imageUrl}w780/${e.backdrop_path}`
         return e;
       })
     );
@@ -62,10 +61,10 @@ export class TmdbService {
       return this.http.get<TmdbMovieCastResponse>(`${this.apiUrl}${imdbId}/credits`,{headers}).pipe(
         map(e => {
           e.cast.map(c => {
-            c.profile_path = this.imageUrl + c.profile_path
+            c.profile_path = `${this.imageUrl}w300/${c.profile_path}`
           })
           e.crew.map(c => {
-            c.profile_path = this.imageUrl + c.profile_path
+            c.profile_path = `${this.imageUrl}w300/${c.profile_path}`
           })
           return e;
         })
